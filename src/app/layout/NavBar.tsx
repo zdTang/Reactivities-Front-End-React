@@ -5,8 +5,14 @@ const NavBar = () => {
   return (
     <Menu fixed="top" inverted>
       <Container>
-        <img src="/assets/logo.png" alt="Logo" />
-        <Menu.Item header>Reactivities</Menu.Item>
+        <Menu.Item header>
+          <img
+            src="/assets/logo.png"
+            alt="Logo"
+            style={{ marginRight: "10px" }}
+          />
+          Reactivities
+        </Menu.Item>
         <Menu.Item name="Activities" />
         <Menu.Item>
           <Button positive content="Create Activity" />
