@@ -1,3 +1,4 @@
+.gitignore
 # Logs
 logs
 *.log
@@ -74,3 +75,4 @@ typings/
 
 # FuseBox cache
 .fusebox/
+MikeDevelopNotes.MD.backup
