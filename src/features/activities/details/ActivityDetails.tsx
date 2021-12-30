@@ -7,7 +7,8 @@ interface Props {
 
 const ActivityDetails = ({ activity }: Props) => {
   return (
-    <Card>
+    // "fluid" is necessary to match the Grid's width
+    <Card fluid>
       <Image src={`/assets/categoryImages/${activity.category}.jpg`} />
       <Card.Content>
         <Card.Header>{activity.title}</Card.Header>

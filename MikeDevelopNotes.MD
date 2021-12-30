@@ -14,3 +14,9 @@ this pattern is good for format a Card, keep in mind and use it.
 1. how to set Grid to divide the page into tow columns
 2. use Semantic Card View. follow its patten and insert relevant Value  
 https://react.semantic-ui.com/views/card/#types-card
+
+# 5-9 - Creating an Activity form
+
+1. use "fluid" to match Parent container's width
+2. use "clearing" to clean previous float content.
+3. use placeHolder to display Info
