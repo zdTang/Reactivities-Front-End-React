@@ -4,6 +4,7 @@ import { Container } from "semantic-ui-react";
 import { Activity } from "../models/activity";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
+import { v4 as uuid } from "uuid";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -52,8 +53,8 @@ function App() {
       ? setActivities([
           ...activities.filter((x) => x.id !== activity.id), // if activity has 'id",means it is edit an old Activity
           activity, // delete the old Activity based on "id" and append a new one
-        ])
-      : setActivities([...activities, activity]); // if create a new Activity, append to activities collection directly( no id at this point)
+        ]) // if it is new created Activity, then goes here !
+      : setActivities([...activities, { ...activity, id: uuid() }]); // cover the empty id with "uuid", very smart approach !
     setEditMode(false);
     setSelectedActivity(activity);
   };
