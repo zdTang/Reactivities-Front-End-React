@@ -25,16 +25,19 @@ function App() {
     console.log("click cancel!");
   };
 
+  // ActivityList=>ActivityDashboard=>App  pass an ID here
+  // Here use the ID to find the Activity and pass to ActivityDetail
   const handleSelectActivity = (id: string) => {
     setSelectedActivity(activities.find((x) => x.id === id));
     console.log("handle Select ", id);
   };
-
+ // SelectedActivity is the Activity user chose from the ActivityList
   return (
     <>
       <NavBar />
       <Container style={{ marginTop: "7em" }}>
         <ActivityDashboard
+          selectedActivity={selectedActivity}
           activities={activities}
           selectActivity={handleSelectActivity}
           cancelSelectActivity={handleCancelSelectActivity}

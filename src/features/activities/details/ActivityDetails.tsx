@@ -3,10 +3,13 @@ import { Button, Card, Image } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 interface Props {
   activity: Activity;
-  cancelSelectActivity:()=>void;
+  cancelSelectActivity: () => void;
 }
 
-const ActivityDetails = ({ activity, cancelSelectActivity }: Props) => {
+const ActivityDetails = ({
+  activity,
+  cancelSelectActivity,
+}: Props) => {
   return (
     // "fluid" is necessary to match the Grid's width
     <Card fluid>
@@ -19,7 +22,11 @@ const ActivityDetails = ({ activity, cancelSelectActivity }: Props) => {
         <Card.Description>{activity.description}</Card.Description>
       </Card.Content>
       <Button.Group widths={2}>
-        <Button basic color="blue" content="Edit" />
+        <Button
+          basic
+          color="blue"
+          content="Edit"
+        />
         <Button
           basic
           color="grey"

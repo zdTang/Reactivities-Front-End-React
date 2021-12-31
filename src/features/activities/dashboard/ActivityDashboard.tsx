@@ -9,11 +9,13 @@ interface Props {
   activities: Activity[];
   cancelSelectActivity: () => void;
   selectActivity: (id: string) => void;
+  selectedActivity:Activity | undefined;
 }
 const ActivityDashboard = ({
   activities,
   cancelSelectActivity,
   selectActivity,
+  selectedActivity,
 }: Props) => {
   return (
     <div>
@@ -25,9 +27,9 @@ const ActivityDashboard = ({
           />
         </Grid.Column>
         <Grid.Column width={6}>
-          {activities[0] && (
+          {selectedActivity && (
             <ActivityDetails
-              activity={activities[0]}
+              activity={selectedActivity}
               cancelSelectActivity={cancelSelectActivity}
             />
           )}
