@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Container } from "semantic-ui-react";
 import { Activity } from "../models/activity";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
 import { v4 as uuid } from "uuid";
+import agent from "../api/agent";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -14,12 +14,12 @@ function App() {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    axios
-      .get<Activity[]>("http://localhost:5000/api/activities")
-      .then((response) => {
-        console.log(response);
-        setActivities(response.data);
-      });
+    // Reference the "agent" module
+    // here the "response" is the "response.data"
+    agent.Activities.list().then((response) => {
+      setActivities(response);
+      console.log("App-useEffect-Get-Activities-Axios: ", response);
+    });
   }, []);
 
   const handleCancelSelectActivity = () => {
@@ -58,10 +58,10 @@ function App() {
     setEditMode(false);
     setSelectedActivity(activity);
   };
-  
-  const handleDeleteActivity=(id: string)=> {
+
+  const handleDeleteActivity = (id: string) => {
     setActivities([...activities.filter((x) => x.id !== id)]);
-  }
+  };
 
   // SelectedActivity is the Activity user chose from the ActivityList
   return (

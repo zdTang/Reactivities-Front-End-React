@@ -42,3 +42,8 @@ App=>ActivityDashboard=>control (ActivityDetails + ActivityForm)
 
 1, notice how to bind a object with Form, this is a classic approach.
 2, use Alias is very confusing. the syntax is similar as declare Type.
+
+# 6-2 - Setting up axios
+
+1, study the agent.ts file, it is good pattern.
+2, review promise pattern.
