@@ -47,3 +47,7 @@ App=>ActivityDashboard=>control (ActivityDetails + ActivityForm)
 
 1, study the agent.ts file, it is good pattern.
 2, review promise pattern.
+
+# 6-3
+date type.  
+The date string fetched from Asp.net core is very long. use String.split to get the part we need.

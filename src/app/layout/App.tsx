@@ -17,7 +17,15 @@ function App() {
     // Reference the "agent" module
     // here the "response" is the "response.data"
     agent.Activities.list().then((response) => {
-      setActivities(response);
+        let activities: Activity[] = [];
+        // the date string from ASP.NET core API is very long 
+        // use the following code to just get the YEAR-MONTH-DAY
+        // and ignore the Time
+        response.forEach((activity: Activity) => {
+          activity.date = activity.date.split("T")[0];
+          activities.push(activity);
+        });
+        setActivities(activities);
       console.log("App-useEffect-Get-Activities-Axios: ", response);
     });
   }, []);
