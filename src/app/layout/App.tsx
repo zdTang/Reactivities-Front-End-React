@@ -25,12 +25,18 @@ function App() {
     console.log("click cancel!");
   };
 
+  const handleSelectActivity = (id: string) => {
+    setSelectedActivity(activities.find((x) => x.id === id));
+    console.log("handle Select ", id);
+  };
+
   return (
     <>
       <NavBar />
       <Container style={{ marginTop: "7em" }}>
         <ActivityDashboard
           activities={activities}
+          selectActivity={handleSelectActivity}
           cancelSelectActivity={handleCancelSelectActivity}
         />
       </Container>

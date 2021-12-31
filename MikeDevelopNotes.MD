@@ -20,3 +20,7 @@ https://react.semantic-ui.com/views/card/#types-card
 1. use "fluid" to match Parent container's width
 2. use "clearing" to clean previous float content.
 3. use placeHolder to display Info
+
+# 5-10 wire up component and event handler 
+
+ onClick={()=>selectedActivity(activity.id)} /> why need this format?
