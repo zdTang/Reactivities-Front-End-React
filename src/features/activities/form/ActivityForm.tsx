@@ -4,11 +4,16 @@ import { Activity } from "../../../app/models/activity";
 interface Props {
   activity: Activity | undefined;
   closeForm: () => void;
+  createOrEdit: (activity: Activity) => void;
 }
 // use Alias here, as we want use the "activity" in useState
 // So that we can name the following "activity" as another name to avoid duplication
 // activity:selectedActivity, Here, it is not a type or option value, it is an Alias
-const ActivityForm = ({ activity: selectedActivity, closeForm }: Props) => {
+const ActivityForm = ({
+  activity: selectedActivity,
+  closeForm,
+  createOrEdit,
+}: Props) => {
   const initialState = selectedActivity ?? {
     id: "",
     title: "",
@@ -21,7 +26,8 @@ const ActivityForm = ({ activity: selectedActivity, closeForm }: Props) => {
   const [activity, setActivity] = useState(initialState);
 
   function handleSubmit() {
-    console.log(activity);
+    console.log("handleSubmit: ", activity);
+    createOrEdit(activity);
   }
 
   //this is a new approach to bind Form with an Object

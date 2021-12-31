@@ -25,7 +25,7 @@ function App() {
     setSelectedActivity(undefined);
     console.log("click cancel!");
   };
-  
+
   // ActivityList=>ActivityDashboard=>App  pass an ID here
   // Here use the ID to find the Activity and pass to ActivityDetail
   const handleSelectActivity = (id: string) => {
@@ -46,6 +46,18 @@ function App() {
     setEditMode(false);
   };
 
+  const handleCreateOrEditActivity = (activity: Activity) => {
+    console.log("handleCreateOrEditActivity: ", activity);
+    activity.id
+      ? setActivities([
+          ...activities.filter((x) => x.id !== activity.id), // if activity has 'id",means it is edit an old Activity
+          activity, // delete the old Activity based on "id" and append a new one
+        ])
+      : setActivities([...activities, activity]); // if create a new Activity, append to activities collection directly( no id at this point)
+    setEditMode(false);
+    setSelectedActivity(activity);
+  };
+
   // SelectedActivity is the Activity user chose from the ActivityList
   return (
     <>
@@ -59,6 +71,7 @@ function App() {
           openForm={handleFormOpen}
           closeForm={handleFormClose}
           editMode={editMode}
+          createOrEdit={handleCreateOrEditActivity}
         />
       </Container>
     </>
