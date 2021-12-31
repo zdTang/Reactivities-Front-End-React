@@ -48,11 +48,11 @@ App=>ActivityDashboard=>control (ActivityDetails + ActivityForm)
 1, study the agent.ts file, it is good pattern.
 2, review promise pattern.
 
-# 6-3
+# 6-3 - Axios types
 date type.  
 The date string fetched from Asp.net core is very long. use String.split to get the part we need.
 
-# 6-4
+# 6-4 - Adding loading indicators
 Dimmer and Loader
 Need take time to practice Semantic-React-ui  
 https://react.semantic-ui.com/elements/loader/#types-loader
@@ -65,3 +65,10 @@ https://stackoverflow.com/questions/33445415/javascript-promises-reject-vs-throw
 
 Need dive Promise deeper to understand code.
 
+# 6-5 - Posting data to the server
+
+the loading effect on the button
+
+https://react.semantic-ui.com/elements/button/
+
+About using Axios api to operate Back end. The approach we are using is operating API. and don't reload the new database.   Instead, we operate the State as well, to make is samiliar with the copy in the database. 

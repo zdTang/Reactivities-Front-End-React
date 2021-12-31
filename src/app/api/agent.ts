@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from "axios" // AxiosResponse is an interface
+import axios, { AxiosResponse } from "axios"; // AxiosResponse is an interface
 import { Activity } from "../models/activity";
 
 const sleep = (delay: number) => {
@@ -6,7 +6,6 @@ const sleep = (delay: number) => {
     setTimeout(resolve, delay);
   });
 };
-
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -23,10 +22,11 @@ axios.interceptors.response.use(async (response) => {
   }
 });
 
-const responseBody=<T>(response:AxiosResponse<T>)=>response.data;
+const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 // Review Promise:
 // the Return value from the the first method will post to the first method in the "then"
+// request Object is Wrapper of axios api
 const requests = {
   get: <T>(url: string) => axios.get<T>(url).then(responseBody), // get is a method.
   post: <T>(url: string, body: {}) =>
@@ -35,12 +35,18 @@ const requests = {
   del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
-const Activities={
-    list:()=>requests.get<Activity[]>('/activities') // notice the BaseURL
-}
+// Activities Object is Wrapper of requests Object
+const Activities = {
+  list: () => requests.get<Activity[]>("/activities"), // notice the BaseURL
+  details: (id: string) => requests.get<Activity>(`/activities/${id}`),
+  create: (activity: Activity) => axios.post<void>("/activities", activity),
+  update: (activity: Activity) =>
+    axios.put<void>(`/activities/${activity.id}`, activity),
+  delete: (id: string) => axios.delete<void>(`/activities/${id}`),
+};
 
-const agent={
-    Activities
-}
+const agent = {
+  Activities,
+};
 
 export default agent;

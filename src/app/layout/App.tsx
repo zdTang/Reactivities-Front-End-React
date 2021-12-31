@@ -14,20 +14,21 @@ function App() {
   >(undefined);
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   useEffect(() => {
     // Reference the "agent" module
     // here the "response" is the "response.data"
     agent.Activities.list().then((response) => {
-        let activities: Activity[] = [];
-        // the date string from ASP.NET core API is very long 
-        // use the following code to just get the YEAR-MONTH-DAY
-        // and ignore the Time
-        response.forEach((activity: Activity) => {
-          activity.date = activity.date.split("T")[0];
-          activities.push(activity);
-        });
-        setActivities(activities);
-        setLoading(false);
+      let activities: Activity[] = [];
+      // the date string from ASP.NET core API is very long
+      // use the following code to just get the YEAR-MONTH-DAY
+      // and ignore the Time
+      response.forEach((activity: Activity) => {
+        activity.date = activity.date.split("T")[0];
+        activities.push(activity);
+      });
+      setActivities(activities);
+      setLoading(false);
       console.log("App-useEffect-Get-Activities-Axios: ", response);
     });
   }, []);
@@ -58,22 +59,57 @@ function App() {
   };
 
   const handleCreateOrEditActivity = (activity: Activity) => {
+    setSubmitting(true);
     console.log("handleCreateOrEditActivity: ", activity);
-    activity.id
-      ? setActivities([
-          ...activities.filter((x) => x.id !== activity.id), // if activity has 'id",means it is edit an old Activity
+    // if activity has 'id",means it is edit an old Activity
+    /*==========================================
+    Here are two operations:
+    1. update remote database with Axios.
+    2. After update remote database, we don't load new updated database again
+    instead, we operate the database in the Memory(State)
+    3. this approach ignore the return value of Axios.Put()
+    4. is this a classic approach? or we load the new data from remote Db after updating
+    ============================================ */
+    if (activity.id) {
+      agent.Activities.update(activity).then(() => {
+        //console.log("after update: ", data);
+        setActivities([
+          ...activities.filter((x) => x.id !== activity.id),
           activity, // delete the old Activity based on "id" and append a new one
-        ]) // if it is new created Activity, then goes here !
-      : setActivities([...activities, { ...activity, id: uuid() }]); // cover the empty id with "uuid", very smart approach !
-    setEditMode(false);
-    setSelectedActivity(activity);
+        ]);
+        setSelectedActivity(activity);
+        setEditMode(false);
+        setSubmitting(false);
+      });
+    } else {
+      // if it is new created Activity, then goes here !
+      /*==========================================
+    Here are two operations:
+    1. call Axios Api (Post) to add a new Activity to remote database.
+    2. After adding new Activity to remote database, we don't load new updated database again
+    instead, we operate the old data collection in the Memory(State)
+    3. this approach ignore the return value of Axios.POST(), it has a return value, we just don't use it.
+    4. is this a classic approach? or we load the new data from remote Db after updating
+    ============================================ */
+      activity.id = uuid();
+      agent.Activities.create(activity).then(() => {
+        setActivities([...activities, activity]);
+        setSelectedActivity(activity);
+        setEditMode(false);
+        setSubmitting(false);
+      });
+    }
   };
 
   const handleDeleteActivity = (id: string) => {
-    setActivities([...activities.filter((x) => x.id !== id)]);
+    setSubmitting(true);
+    agent.Activities.delete(id).then(() => {
+      setActivities([...activities.filter((x) => x.id !== id)]);
+      setSubmitting(false);
+    });
   };
-  
-  if (loading) return <LoadingComponent content="Loading app"/>;
+
+  if (loading) return <LoadingComponent content="Loading app" />;
   // SelectedActivity is the Activity user chose from the ActivityList
   return (
     <>
@@ -89,6 +125,7 @@ function App() {
           editMode={editMode}
           createOrEdit={handleCreateOrEditActivity}
           deleteActivity={handleDeleteActivity}
+          submitting={submitting}
         />
       </Container>
     </>
