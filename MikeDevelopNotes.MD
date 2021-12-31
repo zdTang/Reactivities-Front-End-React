@@ -37,3 +37,8 @@ https://react.semantic-ui.com/views/card/#types-card
 The display of ActivityForm decided by two state flow:
 App=>NavBar=>control ActivityForm
 App=>ActivityDashboard=>control (ActivityDetails + ActivityForm)
+
+# 5-12 - Editing an activity and form basics in React
+
+1, notice how to bind a object with Form, this is a classic approach.
+2, use Alias is very confusing. the syntax is similar as declare Type.
