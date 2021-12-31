@@ -58,6 +58,10 @@ function App() {
     setEditMode(false);
     setSelectedActivity(activity);
   };
+  
+  const handleDeleteActivity=(id: string)=> {
+    setActivities([...activities.filter((x) => x.id !== id)]);
+  }
 
   // SelectedActivity is the Activity user chose from the ActivityList
   return (
@@ -73,6 +77,7 @@ function App() {
           closeForm={handleFormClose}
           editMode={editMode}
           createOrEdit={handleCreateOrEditActivity}
+          deleteActivity={handleDeleteActivity}
         />
       </Container>
     </>
