@@ -4,11 +4,13 @@ import { Activity } from "../../../app/models/activity";
 interface Props {
   activity: Activity;
   cancelSelectActivity: () => void;
+  openForm:(id:string)=>void;
 }
 
 const ActivityDetails = ({
   activity,
   cancelSelectActivity,
+  openForm,
 }: Props) => {
   return (
     // "fluid" is necessary to match the Grid's width
@@ -23,6 +25,7 @@ const ActivityDetails = ({
       </Card.Content>
       <Button.Group widths={2}>
         <Button
+          onClick={() => openForm(activity.id)}
           basic
           color="blue"
           content="Edit"
