@@ -51,3 +51,17 @@ App=>ActivityDashboard=>control (ActivityDetails + ActivityForm)
 # 6-3
 date type.  
 The date string fetched from Asp.net core is very long. use String.split to get the part we need.
+
+# 6-4
+Dimmer and Loader
+Need take time to practice Semantic-React-ui  
+https://react.semantic-ui.com/elements/loader/#types-loader
+
+Axios.interceptor
+https://axios-http.com/docs/interceptors
+
+Promise.reject vs Throw
+https://stackoverflow.com/questions/33445415/javascript-promises-reject-vs-throw
+
+Need dive Promise deeper to understand code.
+

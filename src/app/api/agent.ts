@@ -1,7 +1,28 @@
 import axios, {AxiosResponse} from "axios" // AxiosResponse is an interface
 import { Activity } from "../models/activity";
 
+const sleep = (delay: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+};
+
+
 axios.defaults.baseURL = "http://localhost:5000/api";
+
+// use axios.interceptor
+axios.interceptors.response.use(async (response) => {
+  try {
+    await sleep(1000);
+    return response;
+  } catch (error) {
+    console.log(error);
+    // Promise.reject vs Throw
+    // https://stackoverflow.com/questions/33445415/javascript-promises-reject-vs-throw
+    return await Promise.reject(error);
+  }
+});
+
 const responseBody=<T>(response:AxiosResponse<T>)=>response.data;
 
 // Review Promise:
