@@ -7,6 +7,9 @@ import ActivityDashboard from "../../features/activities/dashboard/ActivityDashb
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [selectedActivity, setSelectedActivity] = useState<
+    Activity | undefined
+  >(undefined);
 
   useEffect(() => {
     axios
@@ -17,11 +20,19 @@ function App() {
       });
   }, []);
 
+  const handleCancelSelectActivity = () => {
+    setSelectedActivity(undefined);
+    console.log("click cancel!");
+  };
+
   return (
     <>
       <NavBar />
       <Container style={{ marginTop: "7em" }}>
-        <ActivityDashboard activities={activities} />
+        <ActivityDashboard
+          activities={activities}
+          cancelSelectActivity={handleCancelSelectActivity}
+        />
       </Container>
     </>
   );
