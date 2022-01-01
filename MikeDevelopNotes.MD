@@ -126,3 +126,10 @@ if no action(Method), we need Wrap with runInAction( ).
 We can use MobX store to manage state centually. but for those handler, will banlance if it is necessary to move to store   
 For those methods(Handler) which will effect global states, we can move it to MobX store. because those global states are there too.   
 For those methods(Handler) which will only effect local state within limited scope. we can just maintain locally.
+
+#  Fix warnings
+1. use runInAction to wrap those assignments to fix warnings
+2. Switch to "Async-await" syntax
+3. Fix a name bug. "selectActivity"=>"selectedActitity"
+4. Now the program runs properly.
+

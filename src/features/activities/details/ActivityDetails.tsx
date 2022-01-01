@@ -8,7 +8,7 @@ const ActivityDetails = () => {
   const {
     selectedActivity: activity,
     openForm,
-    cancelSelectActivity,
+    cancelSelectedActivity,
   } = activityStore;
 
   if (!activity) return <LoadingComponent />;
@@ -35,7 +35,7 @@ const ActivityDetails = () => {
           basic
           color="grey"
           content="Cancel"
-          onClick={cancelSelectActivity}
+          onClick={cancelSelectedActivity}
         />
       </Button.Group>
     </Card>
