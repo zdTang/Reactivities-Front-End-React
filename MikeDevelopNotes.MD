@@ -121,3 +121,8 @@ https://mobx.js.org/actions.html
 if we update states with action, no problem.
 if no action(Method), we need Wrap with runInAction( ).
 
+# Move states from components to STORE
+
+We can use MobX store to manage state centually. but for those handler, will banlance if it is necessary to move to store   
+For those methods(Handler) which will effect global states, we can move it to MobX store. because those global states are there too.   
+For those methods(Handler) which will only effect local state within limited scope. we can just maintain locally.

@@ -1,30 +1,23 @@
+import { observer } from "mobx-react-lite";
 import React, { SyntheticEvent, useState } from "react";
 import { Item, ItemMeta, Button, Segment, Label } from "semantic-ui-react";
-import { Activity } from "../../../app/models/activity";
-import {useStore} from "../../../app/stores/store";
-interface Pros {
-  activities: Activity[];
- 
-  deleteActivity: (id: string) => void;
-  submitting:boolean;
-}
-const ActivityList = ({
-  activities,
- 
-  deleteActivity,
-  submitting,
-}: Pros) => {
-  const {activityStore} = useStore();
-    const [target, setTarget] = useState("");
+import { useStore } from "../../../app/stores/store";
 
-    function handleActivityDelete(
-      e: SyntheticEvent<HTMLButtonElement>,
-      id: string
-    ) {
-      setTarget(e.currentTarget.name);
-      deleteActivity(id);
-    }
-    
+const ActivityList = () => {
+  const { activityStore } = useStore();
+  const { activities, submitting, deleteActivity, selectActivity } =
+    activityStore;
+  
+  const [target, setTarget] = useState("");
+
+  function handleActivityDelete(
+    e: SyntheticEvent<HTMLButtonElement>,
+    id: string
+  ) {
+    setTarget(e.currentTarget.name);
+    deleteActivity(id);
+  }
+
   return (
     <Segment>
       <Item.Group divided>
@@ -42,6 +35,7 @@ const ActivityList = ({
               <Item.Extra>
                 <Button
                   name={activity.id}
+                  // only the Activity which will be deleted use "loading" effect
                   loading={submitting && target === activity.id}
                   onClick={(e) => handleActivityDelete(e, activity.id)}
                   floated="right"
@@ -52,7 +46,7 @@ const ActivityList = ({
                   floated="right"
                   content="View"
                   color="blue"
-                  onClick={() => activityStore.selectActivity(activity.id)}
+                  onClick={() => selectActivity(activity.id)}
                 ></Button>
                 <Label basic content={activity.category} />
               </Item.Extra>
@@ -64,4 +58,4 @@ const ActivityList = ({
   );
 };
 
-export default ActivityList;
+export default observer(ActivityList);
