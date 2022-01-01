@@ -1,7 +1,7 @@
 /*========================================
 This store is for MobX to maintain states
 ========================================== */
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Activity } from "../models/activity";
 
@@ -24,14 +24,20 @@ export default class ActivityStore {
     this.loadingInitial = true;
     try {
       var response = await agent.Activities.list();
-      response.forEach((activity: Activity) => {
-        activity.date = activity.date.split("T")[0];
-        this.activities.push(activity);
+      runInAction(() => {
+        response.forEach((activity: Activity) => {
+          activity.date = activity.date.split("T")[0];
+          this.activities.push(activity);
+        });
+        this.loadingInitial = false;
       });
-      this.loadingInitial = false;
+
       console.log("App-useEffect-Get-Activities-Axios: ", response);
     } catch (error) {
       console.log(error);
+      runInAction(()=>{
+        this.loadingInitial = false;
+      })
     }
   };
 

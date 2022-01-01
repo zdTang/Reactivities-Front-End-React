@@ -114,3 +114,6 @@ For current Promise, it works well.
 To call an async function without using "await"?   
 
 https://stackoverflow.com/questions/55019537/is-possible-to-call-async-function-without-await-keyword-and-what-happens-if-we
+
+# 7-6 - MobX strict mode
+https://mobx.js.org/actions.html
