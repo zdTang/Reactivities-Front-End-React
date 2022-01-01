@@ -6,6 +6,8 @@ import ActivityDashboard from "../../features/activities/dashboard/ActivityDashb
 import { v4 as uuid } from "uuid";
 import agent from "../api/agent";
 import LoadingComponent from "./LoadingComponent";
+import { useStore } from "../stores/store";
+
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -15,6 +17,7 @@ function App() {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+   const { activityStore } = useStore();
   useEffect(() => {
     // Reference the "agent" module
     // here the "response" is the "response.data"
@@ -122,6 +125,7 @@ function App() {
     <>
       <NavBar openForm={handleFormOpen} />
       <Container style={{ marginTop: "7em" }}>
+        <h1>{activityStore.title}</h1>
         <ActivityDashboard
           selectedActivity={selectedActivity}
           activities={activities}
