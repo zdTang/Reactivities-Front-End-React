@@ -23,30 +23,7 @@ function App() {
     activityStore.loadActivities();
   }, [activityStore]);
 
-  const handleCancelSelectActivity = () => {
-    setSelectedActivity(undefined);
-    console.log("click cancel!");
-  };
-
-  // ActivityList=>ActivityDashboard=>App  pass an ID here
-  // Here use the ID to find the Activity and pass to ActivityDetail
-  const handleSelectActivity = (id: string) => {
-    setSelectedActivity(activities.find((x) => x.id === id));
-    console.log("handleSelectActivity= ", id);
-  };
-
-  // Two locations will call this method.
-  // when use "Create Activity" on Navbar, no id passed here, will trigger "handleCancelActivity"
-  // when use "View"=>"Edit" to trigger this method, will have id , will execute "handleSelectActivity"
-  const handleFormOpen = (id?: string) => {
-    console.log("handleFormOpen=", id);
-    id ? handleSelectActivity(id) : handleCancelSelectActivity();
-    setEditMode(true);
-  };
-
-  const handleFormClose = () => {
-    setEditMode(false);
-  };
+  
 
   const handleCreateOrEditActivity = (activity: Activity) => {
     setSubmitting(true);
@@ -111,7 +88,7 @@ function App() {
   // SelectedActivity is the Activity user chose from the ActivityList
   return (
     <>
-      <NavBar openForm={handleFormOpen} />
+      <NavBar />
       <Container style={{ marginTop: "7em" }}>
         <h1>{activityStore.title}</h1>
         <Button
@@ -122,10 +99,7 @@ function App() {
         <ActivityDashboard
           selectedActivity={selectedActivity}
           activities={activityStore.activities}
-          selectActivity={handleSelectActivity}
-          cancelSelectActivity={handleCancelSelectActivity}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
+  
           editMode={editMode}
           createOrEdit={handleCreateOrEditActivity}
           deleteActivity={handleDeleteActivity}

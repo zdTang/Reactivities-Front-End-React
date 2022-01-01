@@ -7,23 +7,20 @@ import ActivityList from "./ActivityList";
 
 interface Props {
   activities: Activity[];
-  cancelSelectActivity: () => void;
-  selectActivity: (id: string) => void;
+  
   selectedActivity: Activity | undefined;
-  openForm: (id: string) => void;
+ 
   editMode: boolean;
-  closeForm: () => void;
+  
   createOrEdit: (activity: Activity) => void;
   deleteActivity: (id: string) => void;
   submitting: boolean;
 }
 const ActivityDashboard = ({
   activities,
-  cancelSelectActivity,
-  selectActivity,
+  
   selectedActivity,
-  openForm,
-  closeForm,
+  
   editMode,
   createOrEdit,
   deleteActivity,
@@ -35,7 +32,7 @@ const ActivityDashboard = ({
         <Grid.Column width={10}>
           <ActivityList
             activities={activities}
-            selectActivity={selectActivity}
+            
             deleteActivity={deleteActivity} 
             submitting={submitting}
           />
@@ -44,13 +41,12 @@ const ActivityDashboard = ({
           {selectedActivity && !editMode && (
             <ActivityDetails
               activity={selectedActivity}
-              cancelSelectActivity={cancelSelectActivity}
-              openForm={openForm}
+             
             />
           )}
           {editMode && (
             <ActivityForm
-              closeForm={closeForm}
+             
               activity={selectedActivity}
               createOrEdit={createOrEdit}
               submitting={submitting}

@@ -7,6 +7,10 @@ import { Activity } from "../models/activity";
 
 // this is a class, a component ??
 export default class ActivityStore {
+  constructor() {
+    makeAutoObservable(this); // make this state abservable
+  }
+  
   title = "Hello from MobX"; // this is a state
   setTitle = () => {
     this.title = this.title + "!";
@@ -15,7 +19,7 @@ export default class ActivityStore {
   activities: Activity[] = [];
   loading: boolean = false;
   loadingInitial = false;
-  selectedActivity: Activity | null = null;
+  selectedActivity: Activity | undefined = undefined;
   editMode = false;
 
   loadActivities = async () => {
@@ -27,7 +31,7 @@ export default class ActivityStore {
 
       response.forEach((activity: Activity) => {
         activity.date = activity.date.split("T")[0];
-        this.activities.push(activity); 
+        this.activities.push(activity);
         // here, the activities use push to change state, no problem
       });
       this.setLoadingInitial(false);
@@ -43,7 +47,28 @@ export default class ActivityStore {
   setLoadingInitial = (state: boolean) => {
     this.loadingInitial = state;
   };
-  constructor() {
-    makeAutoObservable(this); // make this state abservable
-  }
+
+  cancelSelectActivity = () => {
+    this.selectedActivity = undefined;
+    console.log("CancelSelectActivity!");
+  };
+
+
+  selectActivity = (id: string) => {
+    this.selectedActivity=this.activities.find((x) => x.id === id);
+    console.log("SelectActivity= ", id);
+  };
+
+  // Two locations will call this method.
+  // when use "Create Activity" on Navbar, no id passed here, will trigger "handleCancelActivity"
+  // when use "View"=>"Edit" to trigger this method, will have id , will execute "handleSelectActivity"
+  openForm = (id?: string) => {
+    console.log("handleFormOpen=", id);
+    id ? this.selectActivity(id) : this.cancelSelectActivity();
+    this.editMode=true;
+  };
+
+  closeForm = () => {
+   this.editMode = false;
+  };
 }

@@ -1,17 +1,18 @@
 import React from "react";
 import { Button, Card, Image } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
+import {useStore} from "../../../app/stores/store"
 interface Props {
   activity: Activity;
-  cancelSelectActivity: () => void;
-  openForm:(id:string)=>void;
+  
 }
 
 const ActivityDetails = ({
   activity,
-  cancelSelectActivity,
-  openForm,
+  
 }: Props) => {
+  
+  const {activityStore}=useStore();
   return (
     // "fluid" is necessary to match the Grid's width
     <Card fluid>
@@ -25,7 +26,7 @@ const ActivityDetails = ({
       </Card.Content>
       <Button.Group widths={2}>
         <Button
-          onClick={() => openForm(activity.id)}
+          onClick={() => activityStore.openForm(activity.id)}
           basic
           color="blue"
           content="Edit"
@@ -34,7 +35,7 @@ const ActivityDetails = ({
           basic
           color="grey"
           content="Cancel"
-          onClick={cancelSelectActivity}
+          onClick={activityStore.cancelSelectActivity}
         />
       </Button.Group>
     </Card>
