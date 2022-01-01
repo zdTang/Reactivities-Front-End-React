@@ -72,3 +72,14 @@ the loading effect on the button
 https://react.semantic-ui.com/elements/button/
 
 About using Axios api to operate Back end. The approach we are using is operating API. and don't reload the new database.   Instead, we operate the State as well, to make is samiliar with the copy in the database. 
+
+
+# MobX store
+what is store in Mobx  
+https://mobx.js.org/defining-data-stores.html  
+Store vs context.  
+create a context need a store.  
+have no idea if we can use Mobx state without help of useContext  
+useContext is only for conveying state other than processing state
+Mobx is processing state.
+
