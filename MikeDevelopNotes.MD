@@ -133,3 +133,9 @@ For those methods(Handler) which will only effect local state within limited sco
 3. Fix a name bug. "selectActivity"=>"selectedActitity"
 4. Now the program runs properly.
 
+
+# 7-9 
+
+Use my approach to finish those steps. 
+add TRY-CATCH for those async operations.
+

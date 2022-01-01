@@ -87,14 +87,21 @@ export default class ActivityStore {
       this.loading = true;
     });
     activity.id = uuid();
-    await agent.Activities.create(activity);
-    // State cannot be assigned value with "=", should use method
-    runInAction(() => {
-      this.activities.push(activity);
-      this.selectedActivity = activity;
-      this.editMode = false;
-      this.loading = false;
-    });
+    try {
+      await agent.Activities.create(activity);
+      // State cannot be assigned value with "=", should use method
+      runInAction(() => {
+        this.activities.push(activity);
+        this.selectedActivity = activity;
+        this.editMode = false;
+        this.loading = false;
+      });
+    } catch (e) {
+      console.log(e);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
   };
 
   /*==========================================
@@ -108,18 +115,24 @@ export default class ActivityStore {
 
   updateActivity = async (activity: Activity) => {
     console.log("EditActivity: ", activity);
-    await agent.Activities.update(activity);
-
-    // State cannot be assigned value with "=", should use method
-    runInAction(() => {
-      this.activities = [
-        ...this.activities.filter((x: Activity) => x.id !== activity.id),
-        activity,
-      ];
-      this.selectedActivity = activity;
-      this.editMode = false;
-      this.loading = false;
-    });
+    try {
+      await agent.Activities.update(activity);
+      // State cannot be assigned value with "=", should use method
+      runInAction(() => {
+        this.activities = [
+          ...this.activities.filter((x: Activity) => x.id !== activity.id),
+          activity,
+        ];
+        this.selectedActivity = activity;
+        this.editMode = false;
+        this.loading = false;
+      });
+    } catch (e) {
+      console.log(e);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
   };
 
   /*==========================================
@@ -135,16 +148,23 @@ export default class ActivityStore {
     runInAction(() => {
       this.loading = true;
     });
-    await agent.Activities.delete(id);
-    runInAction(() => {
-      this.activities = [...this.activities.filter((x) => x.id !== id)];
-    });
-    // cancel "view" the Activity if it is deleted
-    // there is a scenario: the activity is Viewed on the right side while we click "delete" on it in the ActivityList
-    // In this scenario, we will not display it any more.
-    if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
-    runInAction(() => {
-      this.loading = false;
-    });
+    try {
+      await agent.Activities.delete(id);
+      runInAction(() => {
+        this.activities = [...this.activities.filter((x) => x.id !== id)];
+      });
+      // cancel "view" the Activity if it is deleted
+      // there is a scenario: the activity is Viewed on the right side while we click "delete" on it in the ActivityList
+      // In this scenario, we will not display it any more.
+      if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
+      runInAction(() => {
+        this.loading = false;
+      });
+    } catch (e) {
+      console.log(e);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
   };
 }
