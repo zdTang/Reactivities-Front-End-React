@@ -108,3 +108,9 @@ move those state from App.tsx to ActivityStore.
 in ActivityStore, states are managed by useState, now, it's time to manage them centrally.
 
 For current Promise, it works well.
+
+# 7-5 Refactoring the app to use MobX - Async  
+
+To call an async function without using "await"?   
+
+https://stackoverflow.com/questions/55019537/is-possible-to-call-async-function-without-await-keyword-and-what-happens-if-we
