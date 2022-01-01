@@ -1,7 +1,7 @@
 /*========================================
 This store is for MobX to maintain states
 ========================================== */
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import agent from "../api/agent";
 import { Activity } from "../models/activity";
 
@@ -21,26 +21,28 @@ export default class ActivityStore {
   loadActivities = async () => {
     // Reference the "agent" module
     // here the "response" is the "response.data"
-    this.loadingInitial = true;
+    this.setLoadingInitial(true);
     try {
       var response = await agent.Activities.list();
-      runInAction(() => {
-        response.forEach((activity: Activity) => {
-          activity.date = activity.date.split("T")[0];
-          this.activities.push(activity);
-        });
-        this.loadingInitial = false;
+
+      response.forEach((activity: Activity) => {
+        activity.date = activity.date.split("T")[0];
+        this.activities.push(activity); 
+        // here, the activities use push to change state, no problem
       });
+      this.setLoadingInitial(false);
 
       console.log("App-useEffect-Get-Activities-Axios: ", response);
     } catch (error) {
       console.log(error);
-      runInAction(()=>{
-        this.loadingInitial = false;
-      })
+
+      this.setLoadingInitial(false);
     }
   };
 
+  setLoadingInitial = (state: boolean) => {
+    this.loadingInitial = state;
+  };
   constructor() {
     makeAutoObservable(this); // make this state abservable
   }

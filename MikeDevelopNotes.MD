@@ -117,3 +117,7 @@ https://stackoverflow.com/questions/55019537/is-possible-to-call-async-function-
 
 # 7-6 - MobX strict mode
 https://mobx.js.org/actions.html
+
+if we update states with action, no problem.
+if no action(Method), we need Wrap with runInAction( ).
+
