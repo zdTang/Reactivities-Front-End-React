@@ -92,3 +92,6 @@ How to apply:
 <context.provider value={store}>  
 content...   
 <context.provider>
+
+the store can mantain action as well
+update state with action must use "observer", observer(App), or it cannot be display.

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "semantic-ui-react";
+import { Button, Container } from "semantic-ui-react";
 import { Activity } from "../models/activity";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 import agent from "../api/agent";
 import LoadingComponent from "./LoadingComponent";
 import { useStore } from "../stores/store";
-
+import { observer } from "mobx-react-lite";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -126,6 +126,11 @@ function App() {
       <NavBar openForm={handleFormOpen} />
       <Container style={{ marginTop: "7em" }}>
         <h1>{activityStore.title}</h1>
+        <Button
+          content="Add exclamation!"
+          positive
+          onClick={activityStore.setTitle}
+        ></Button>
         <ActivityDashboard
           selectedActivity={selectedActivity}
           activities={activities}
@@ -142,5 +147,5 @@ function App() {
     </>
   );
 }
-
-export default App;
+// must use "observer" or the state cannot be updated.
+export default observer(App);
