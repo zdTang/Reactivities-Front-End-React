@@ -9,7 +9,7 @@ import {useStore} from "../../../app/stores/store"
 const ActivityForm = () => {
   
   const {activityStore}=useStore();
-  const { selectedActivity, createActivity, updateActivity, submitting } =
+  const { selectedActivity, createActivity, updateActivity, loading } =
     activityStore;
   const initialState = selectedActivity ?? {
     id: "",
@@ -77,7 +77,7 @@ const ActivityForm = () => {
           onChange={handleInputChange}
         />
         <Button
-          loading={submitting}
+          loading={loading}
           floated="right"
           positive
           type="submit"

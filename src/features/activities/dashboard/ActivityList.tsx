@@ -5,7 +5,7 @@ import { useStore } from "../../../app/stores/store";
 
 const ActivityList = () => {
   const { activityStore } = useStore();
-  const { activities, submitting, deleteActivity, selectActivity } =
+  const { activities, deleteActivity, selectActivity,loading } =
     activityStore;
   
   const [target, setTarget] = useState("");
@@ -36,7 +36,7 @@ const ActivityList = () => {
                 <Button
                   name={activity.id}
                   // only the Activity which will be deleted use "loading" effect
-                  loading={submitting && target === activity.id}
+                  loading={loading && target === activity.id}
                   onClick={(e) => handleActivityDelete(e, activity.id)}
                   floated="right"
                   content="Delete"

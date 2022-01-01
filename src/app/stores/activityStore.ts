@@ -21,7 +21,7 @@ export default class ActivityStore {
   loadingInitial = false;
   selectedActivity: Activity | undefined = undefined;
   editMode = false;
-  submitting = false;
+ 
 
   loadActivities = async () => {
     // Reference the "agent" module
@@ -73,7 +73,7 @@ export default class ActivityStore {
   };
 
   createActivity = (activity: Activity) => {
-    this.submitting = true;
+    this.loading = true;
 
     /*==========================================
     Here are two operations:
@@ -88,7 +88,7 @@ export default class ActivityStore {
       this.activities = [...this.activities, activity];
       this.selectedActivity = activity;
       this.editMode = false;
-      this.submitting = false;
+      this.loading = false;
     });
   };
 
@@ -110,7 +110,7 @@ export default class ActivityStore {
       ];
       this.selectedActivity = activity;
       this.editMode = false;
-      this.submitting = false;
+      this.loading = false;
     });
   };
 
@@ -123,10 +123,10 @@ export default class ActivityStore {
     4. is this a classic approach? or we load the new data from remote Db after updating
     ============================================ */
   deleteActivity = (id: string) => {
-    this.submitting = true;
+    this.loading = true;
     agent.Activities.delete(id).then(() => {
       this.activities = [...this.activities.filter((x) => x.id !== id)];
-      this.submitting = false;
+      this.loading = false;
     });
   };
 }
