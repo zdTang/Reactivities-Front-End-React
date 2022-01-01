@@ -1,12 +1,28 @@
-import React from "react";
-import { Item, ItemMeta, Button, Segment } from "semantic-ui-react";
+import React, { SyntheticEvent, useState } from "react";
+import { Item, ItemMeta, Button, Segment, Label } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 interface Pros {
   activities: Activity[];
   selectActivity: (id: string) => void;
   deleteActivity: (id: string) => void;
+  submitting:boolean;
 }
-const ActivityList = ({ activities, selectActivity, deleteActivity }: Pros) => {
+const ActivityList = ({
+  activities,
+  selectActivity,
+  deleteActivity,
+  submitting,
+}: Pros) => {
+    const [target, setTarget] = useState("");
+
+    function handleActivityDelete(
+      e: SyntheticEvent<HTMLButtonElement>,
+      id: string
+    ) {
+      setTarget(e.currentTarget.name);
+      deleteActivity(id);
+    }
+    
   return (
     <Segment>
       <Item.Group divided>
@@ -23,17 +39,20 @@ const ActivityList = ({ activities, selectActivity, deleteActivity }: Pros) => {
               </Item.Description>
               <Item.Extra>
                 <Button
-                  style={{ float: "right", color: "red" }}
-                  onClick={() => deleteActivity(activity.id)}
-                >
-                  Delete
-                </Button>
+                  name={activity.id}
+                  loading={submitting && target === activity.id}
+                  onClick={(e) => handleActivityDelete(e, activity.id)}
+                  floated="right"
+                  content="Delete"
+                  color="red"
+                />
                 <Button
                   floated="right"
                   content="View"
                   color="blue"
                   onClick={() => selectActivity(activity.id)}
                 ></Button>
+                <Label basic content={activity.category} />
               </Item.Extra>
             </Item.Content>
           </Item>

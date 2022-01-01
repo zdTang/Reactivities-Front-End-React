@@ -100,7 +100,14 @@ function App() {
       });
     }
   };
-
+  /*==========================================
+    Here are two operations:
+    1. call Axios Api (Delete) to remove a given Activity from remote database.
+    2. After adding new Activity to remote database, we don't load new updated database again
+    instead, we operate the old data collection in the Memory(State)
+    3. this approach ignore the return value of Axios.POST(), it has a return value, we just don't use it.
+    4. is this a classic approach? or we load the new data from remote Db after updating
+    ============================================ */
   const handleDeleteActivity = (id: string) => {
     setSubmitting(true);
     agent.Activities.delete(id).then(() => {
