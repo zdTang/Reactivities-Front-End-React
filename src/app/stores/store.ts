@@ -1,3 +1,6 @@
+/*=======================================================
+This store is for useContext to create a global context
+========================================================= */
 import { createContext, useContext } from "react";
 import ActivityStore from "./activityStore";
 

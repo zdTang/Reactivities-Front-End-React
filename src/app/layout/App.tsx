@@ -10,31 +10,18 @@ import { useStore } from "../stores/store";
 import { observer } from "mobx-react-lite";
 
 function App() {
-  const [activities, setActivities] = useState<Activity[]>([]);
+  
   const [selectedActivity, setSelectedActivity] = useState<
     Activity | undefined
   >(undefined);
   const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
    const { activityStore } = useStore();
   useEffect(() => {
-    // Reference the "agent" module
-    // here the "response" is the "response.data"
-    agent.Activities.list().then((response) => {
-      let activities: Activity[] = [];
-      // the date string from ASP.NET core API is very long
-      // use the following code to just get the YEAR-MONTH-DAY
-      // and ignore the Time
-      response.forEach((activity: Activity) => {
-        activity.date = activity.date.split("T")[0];
-        activities.push(activity);
-      });
-      setActivities(activities);
-      setLoading(false);
-      console.log("App-useEffect-Get-Activities-Axios: ", response);
-    });
-  }, []);
+    activityStore.loadActivities();
+  }, [activityStore]);
 
   const handleCancelSelectActivity = () => {
     setSelectedActivity(undefined);
@@ -119,7 +106,8 @@ function App() {
     });
   };
 
-  if (loading) return <LoadingComponent content="Loading app" />;
+  if (activityStore.loadingInitial)
+    return <LoadingComponent content="Loading app" />;
   // SelectedActivity is the Activity user chose from the ActivityList
   return (
     <>
@@ -133,7 +121,7 @@ function App() {
         ></Button>
         <ActivityDashboard
           selectedActivity={selectedActivity}
-          activities={activities}
+          activities={activityStore.activities}
           selectActivity={handleSelectActivity}
           cancelSelectActivity={handleCancelSelectActivity}
           openForm={handleFormOpen}

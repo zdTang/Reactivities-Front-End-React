@@ -101,3 +101,10 @@ update state with action must use "observer", observer(App), or it cannot be dis
 
 import "makeAutoObservable" to make exporting state easy.  
 https://mobx.js.org/api.html
+
+# 7-5 Refactoring the app to use MobX - no Async
+
+move those state from App.tsx to ActivityStore.  
+in ActivityStore, states are managed by useState, now, it's time to manage them centrally.
+
+For current Promise, it works well.
