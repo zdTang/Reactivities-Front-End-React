@@ -83,3 +83,12 @@ have no idea if we can use Mobx state without help of useContext
 useContext is only for conveying state other than processing state
 Mobx is processing state.
 
+
+Make clear the relationship between createContext, provider,store
+
+context=createContext(store)  
+
+How to apply:  
+<context.provider value={store}>  
+content...   
+<context.provider>
