@@ -139,3 +139,8 @@ For those methods(Handler) which will only effect local state within limited sco
 Use my approach to finish those steps. 
 add TRY-CATCH for those async operations.
 
+# 7-10 - Using a Javascript map object to store the activities
+
+use Map other than Array.  
+what is the benefit of using Map?
+

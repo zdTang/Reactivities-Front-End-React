@@ -11,14 +11,18 @@ export default class ActivityStore {
     makeAutoObservable(this); // make this state abservable
   }
 
-  title = "Hello from MobX"; // this is a state
-  setTitle = () => {
-    this.title = this.title + "!";
-  };
+  //  use an Action as a property !!!
+  get activitiesByDate() {
+    return Array.from(this.activityRegistry.values()).sort(
+      (a, b) => Date.parse(a.date) - Date.parse(b.date)
+    );
+  }
+
   // Transform those useState here
-  activities: Activity[] = [];
+  //activities: Activity[] = [];
+  activityRegistry = new Map<string, Activity>();
   loading: boolean = false;
-  loadingInitial = false;
+  loadingInitial = true;
   selectedActivity: Activity | undefined = undefined;
   editMode = false;
 
@@ -31,7 +35,7 @@ export default class ActivityStore {
 
       response.forEach((activity: Activity) => {
         activity.date = activity.date.split("T")[0];
-        this.activities.push(activity);
+        this.activityRegistry.set(activity.id, activity);
         // here, the activities use push to change state, no problem
       });
       this.setLoadingInitial(false);
@@ -56,7 +60,7 @@ export default class ActivityStore {
   };
 
   selectActivity = (id: string) => {
-    this.selectedActivity = this.activities.find((x) => x.id === id);
+    this.selectedActivity = this.activityRegistry.get(id);
     console.log("SelectActivity= ", id);
   };
 
@@ -91,7 +95,7 @@ export default class ActivityStore {
       await agent.Activities.create(activity);
       // State cannot be assigned value with "=", should use method
       runInAction(() => {
-        this.activities.push(activity);
+        this.activityRegistry.set(activity.id, activity);
         this.selectedActivity = activity;
         this.editMode = false;
         this.loading = false;
@@ -119,10 +123,7 @@ export default class ActivityStore {
       await agent.Activities.update(activity);
       // State cannot be assigned value with "=", should use method
       runInAction(() => {
-        this.activities = [
-          ...this.activities.filter((x: Activity) => x.id !== activity.id),
-          activity,
-        ];
+        this.activityRegistry.set(activity.id, activity);
         this.selectedActivity = activity;
         this.editMode = false;
         this.loading = false;
@@ -151,7 +152,7 @@ export default class ActivityStore {
     try {
       await agent.Activities.delete(id);
       runInAction(() => {
-        this.activities = [...this.activities.filter((x) => x.id !== id)];
+        this.activityRegistry.delete(id);
       });
       // cancel "view" the Activity if it is deleted
       // there is a scenario: the activity is Viewed on the right side while we click "delete" on it in the ActivityList
