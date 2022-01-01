@@ -95,3 +95,9 @@ content...
 
 the store can mantain action as well
 update state with action must use "observer", observer(App), or it cannot be display.
+
+
+# 7-4 MobX actions
+
+import "makeAutoObservable" to make exporting state easy.  
+https://mobx.js.org/api.html

@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 // this is a class, a component ??
 export default class ActivityStore {
@@ -8,6 +8,6 @@ export default class ActivityStore {
   };
 
   constructor() {
-    makeObservable(this, { title: observable, setTitle: action }); // make this state abservable
+    makeAutoObservable(this); // make this state abservable
   }
 }
