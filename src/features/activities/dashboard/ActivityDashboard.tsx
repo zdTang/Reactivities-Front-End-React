@@ -7,16 +7,16 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 const ActivityDashboard = () => {
   const { activityStore } = useStore();
-  const { loadingInitial, loadActivities } = activityStore;
+  const { loadingInitial, loadActivities, activityRegistry } = activityStore;
 
   // study this useEffect
   // any change in activityStore, will reload
   useEffect(() => {
-    loadActivities();
+    if (activityRegistry.size <= 1) loadActivities(); // if the collection is still in Memory, don't load it from DB
   }, [activityStore, loadActivities]);
 
   if (loadingInitial) return <LoadingComponent content="Loading app" />;
- 
+
   return (
     <div>
       <Grid>
