@@ -13,7 +13,7 @@ const ActivityDashboard = () => {
   // any change in activityStore, will reload
   useEffect(() => {
     if (activityRegistry.size <= 1) loadActivities(); // if the collection is still in Memory, don't load it from DB
-  }, [activityStore, loadActivities]);
+  }, [activityStore, activityRegistry.size,loadActivities]);
 
   if (loadingInitial) return <LoadingComponent content="Loading app" />;
 

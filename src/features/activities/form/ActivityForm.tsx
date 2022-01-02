@@ -48,7 +48,8 @@ const ActivityForm = () => {
   //createActivity, updateActivity are Promises.
   ============================================== */
   const handleSubmit = () => {
-    if (!activity.id) {
+    //if (!activity.id) {  // I think this one still work
+    if (activity.id.length === 0) {
       // for new create Object, id is '', it should be falsy
       let newActivity = {
         ...activity,
@@ -123,7 +124,13 @@ const ActivityForm = () => {
           type="submit"
           content="Submit"
         />
-        <Button as={Link} to="/activities" floated="right" type="button" content="Cancel" />
+        <Button
+          as={Link}
+          to="/activities"
+          floated="right"
+          type="button"
+          content="Cancel"
+        />
       </Form>
     </Segment>
   );

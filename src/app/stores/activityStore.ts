@@ -54,6 +54,29 @@ export default class ActivityStore {
     this.loadingInitial = state;
   };
 
+  loadActivity = async (id: string) => {
+    let activity = this.getActivity(id);
+    if (activity) {
+      // load from Memory
+      this.selectedActivity = activity;
+      return activity;
+    } else {
+      // load from Remote server
+      this.loadingInitial = true;
+      try {
+        activity = await agent.Activities.details(id);
+        this.setActivity(activity);
+        runInAction(() => {
+          this.selectedActivity = activity;
+        });
+        this.setLoadingInitial(false);
+        return activity;
+      } catch (error) {
+        console.log(error);
+        this.setLoadingInitial(false);
+      }
+    }
+  };
   // use async syntax now
   /*==========================================
     Here are two operations:
@@ -149,30 +172,6 @@ export default class ActivityStore {
   // Check if activity exists in Memory
   private getActivity = (id: string) => {
     return this.activityRegistry.get(id);
-  };
-
-  loadActivity = async (id: string) => {
-    let activity = this.getActivity(id);
-    if (activity) {
-      // load from Memory
-      this.selectedActivity = activity;
-      return activity;
-    } else {
-      // load from Remote server
-      this.loadingInitial = true;
-      try {
-        activity = await agent.Activities.details(id);
-        this.setActivity(activity);
-        runInAction(() => {
-          this.selectedActivity = activity;
-        });
-        this.setLoadingInitial(false);
-        return activity;
-      } catch (error) {
-        console.log(error);
-        this.setLoadingInitial(false);
-      }
-    }
   };
 
   private setActivity = (activity: Activity) => {
