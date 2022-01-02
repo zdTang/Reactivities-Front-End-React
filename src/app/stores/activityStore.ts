@@ -4,7 +4,7 @@ This store is for MobX to maintain states
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Activity } from "../models/activity";
-import { v4 as uuid } from "uuid";
+
 // this is a class, a component ??
 export default class ActivityStore {
   constructor() {
@@ -35,7 +35,9 @@ export default class ActivityStore {
 
       response.forEach((activity: Activity) => {
         activity.date = activity.date.split("T")[0];
-        this.activityRegistry.set(activity.id, activity);
+        runInAction(() => {
+          this.activityRegistry.set(activity.id, activity);
+        });
         // here, the activities use push to change state, no problem
       });
       this.setLoadingInitial(false);
@@ -52,9 +54,6 @@ export default class ActivityStore {
     this.loadingInitial = state;
   };
 
- 
-
-
   // use async syntax now
   /*==========================================
     Here are two operations:
@@ -68,7 +67,7 @@ export default class ActivityStore {
     runInAction(() => {
       this.loading = true;
     });
-    activity.id = uuid();
+    console.log("createActivity: ", activity);
     try {
       await agent.Activities.create(activity);
       // State cannot be assigned value with "=", should use method
@@ -96,7 +95,7 @@ export default class ActivityStore {
     ============================================ */
 
   updateActivity = async (activity: Activity) => {
-    console.log("EditActivity: ", activity);
+    console.log("updateActivity: ", activity);
     try {
       await agent.Activities.update(activity);
       // State cannot be assigned value with "=", should use method
@@ -154,10 +153,12 @@ export default class ActivityStore {
 
   loadActivity = async (id: string) => {
     let activity = this.getActivity(id);
-    if (activity) {  // load from Memory
+    if (activity) {
+      // load from Memory
       this.selectedActivity = activity;
       return activity;
-    } else { // load from Remote server
+    } else {
+      // load from Remote server
       this.loadingInitial = true;
       try {
         activity = await agent.Activities.details(id);

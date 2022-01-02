@@ -1,9 +1,10 @@
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Button, Form, Segment } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
+import { v4 as uuid } from "uuid";
 
 // use Alias here, as we want use the "activity" in useState
 // So that we can name the following "activity" as another name to avoid duplication
@@ -17,9 +18,7 @@ const ActivityForm = () => {
     loadActivity,
     loadingInitial,
   } = activityStore;
-  
-  const { id } = useParams<{ id: string }>();
-  
+
   const initialState = {
     id: "",
     title: "",
@@ -29,27 +28,51 @@ const ActivityForm = () => {
     city: "",
     venue: "",
   };
-  
+
   // this activity is bind Form
   const [activity, setActivity] = useState(initialState);
 
-  
+  const { id } = useParams<{ id: string }>();
+  const history = useHistory();
+
   useEffect(() => {
     if (id) loadActivity(id).then((activity) => setActivity(activity!));
   }, [id, loadActivity]);
+
+  /*=============================================
+  Be aware: The activity object comes from Form, which maintained by useState and 
+  is initialized by an old Activity(Edit Mode) or empty Activity(Create Mode)
+  for Edit Mode, the old Activity is passed here but its GUID will not display on the From as we 
+  are not allowed to edit its GUID.
   
-  const handleSubmit=()=> {
-    activity.id ? updateActivity(activity) : createActivity(activity);
-  }
+  //createActivity, updateActivity are Promises.
+  ============================================== */
+  const handleSubmit = () => {
+    if (!activity.id) {
+      // for new create Object, id is '', it should be falsy
+      let newActivity = {
+        ...activity,
+        id: uuid(),
+      };
+
+      createActivity(newActivity).then(() => {
+        history.push(`/activities/${newActivity.id}`);
+      });
+    } else {
+      updateActivity(activity).then(() => {
+        history.push(`/activities/${activity.id}`);
+      });
+    }
+  };
 
   //this is a new approach to bind Form with an Object
-  const handleInputChange=(
+  const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) =>{
+  ) => {
     const { name, value } = event.target; // "name" and "value" are properties of "event.target"
     setActivity({ ...activity, [name]: value }); // use new property to cover old value
-  }
-  
+  };
+
   if (loadingInitial) return <LoadingComponent content="Loading activity..." />;
 
   return (

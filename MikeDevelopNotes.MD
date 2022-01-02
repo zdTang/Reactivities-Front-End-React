@@ -197,7 +197,11 @@ Why the URL changed, the Form View is not been re-rendered ?  the reason lies th
 Based on instructor, and React-router's documentation. to force the element to be re-rendered. we need give it an extra key.  because this key is always there in the Location Object, it will change with the URL. so that once the URL is change, the key will change and the componet will be re-rendered.  
 
 
+# 8-10 - Redirect after submission
 
+1. Notice the Promise will return another promise
+2. Be very careful of if condition. falsy or truth. how to control data flow
+3. useHistory can let use to anywhere. once we finish an operation, we can use useHistory to redirect to the destination we wish.
 
 
 
