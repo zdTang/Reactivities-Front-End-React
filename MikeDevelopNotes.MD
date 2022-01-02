@@ -179,6 +179,15 @@ Once we launch a Router with a parameter
 
 To load the specify Activity. we first check the Memory, if we cannot find it  we should fetch it from remote database.  
 
+# 8-8 
+
+Both "createActivity" and "Edit" on the "ActivityDetail" can trigger the ActivityForm
+
+Click "edit" on the ActivityDetail,  the ActivityForm will display too.
+Add two path to  point to one component.   
+
+For the ActivityForm, before using router, it can get state from Props of parent component( ActivityDashboard), now it can get a ID from the URL. once the component is triggered by Router, the component should use the ID in the URL to grab the content and display it.
+
 
 
 

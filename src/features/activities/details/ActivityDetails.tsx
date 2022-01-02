@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Card, Image } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 const ActivityDetails = () => {
@@ -12,18 +12,16 @@ const ActivityDetails = () => {
     loadActivity,
     loadingInitial,
   } = activityStore;
-  
-  // get id from Router
-   const { id } = useParams<{ id: string }>();
 
-   // Retrieve the Activity based on id
-   // Before, the Parent will pass in the Activity via the Props 
-   // Now we only have the id, the component need a new approach to grab the content
-   useEffect(() => {
-     if (id) loadActivity(id);
-   }, [id, loadActivity]);
-   
-   
+  // get id from Router
+  const { id } = useParams<{ id: string }>();
+
+  // Retrieve the Activity based on id
+  // Before, the Parent will pass in the Activity via the Props
+  // Now we only have the id, the component need a new approach to grab the content
+  useEffect(() => {
+    if (id) loadActivity(id);
+  }, [id, loadActivity]);
 
   if (loadingInitial || !activity) return <LoadingComponent />;
 
@@ -43,11 +41,15 @@ const ActivityDetails = () => {
           basic
           color="blue"
           content="Edit"
+          as={Link}
+          to={`/manage/${activity.id}`}
         />
         <Button
           basic
           color="grey"
           content="Cancel"
+          as={Link}
+          to="/activities"
         />
       </Button.Group>
     </Card>

@@ -1,6 +1,8 @@
 import { observer } from "mobx-react-lite";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Button, Form, Segment } from "semantic-ui-react";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
 
 // use Alias here, as we want use the "activity" in useState
@@ -8,9 +10,17 @@ import { useStore } from "../../../app/stores/store";
 // activity:selectedActivity, Here, it is not a type or option value, it is an Alias
 const ActivityForm = () => {
   const { activityStore } = useStore();
-  const { selectedActivity, createActivity, updateActivity, loading } =
-    activityStore;
-  const initialState = selectedActivity ?? {
+  const {
+    loading,
+    createActivity,
+    updateActivity,
+    loadActivity,
+    loadingInitial,
+  } = activityStore;
+  
+  const { id } = useParams<{ id: string }>();
+  
+  const initialState = {
     id: "",
     title: "",
     category: "",
@@ -19,20 +29,28 @@ const ActivityForm = () => {
     city: "",
     venue: "",
   };
+  
   // this activity is bind Form
   const [activity, setActivity] = useState(initialState);
 
-  function handleSubmit() {
+  
+  useEffect(() => {
+    if (id) loadActivity(id).then((activity) => setActivity(activity!));
+  }, [id, loadActivity]);
+  
+  const handleSubmit=()=> {
     activity.id ? updateActivity(activity) : createActivity(activity);
   }
 
   //this is a new approach to bind Form with an Object
-  function handleInputChange(
+  const handleInputChange=(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
+  ) =>{
     const { name, value } = event.target; // "name" and "value" are properties of "event.target"
     setActivity({ ...activity, [name]: value }); // use new property to cover old value
   }
+  
+  if (loadingInitial) return <LoadingComponent content="Loading activity..." />;
 
   return (
     // "clearing" to clear previous float content?
