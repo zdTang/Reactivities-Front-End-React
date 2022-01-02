@@ -188,6 +188,14 @@ Add two path to  point to one component.
 
 For the ActivityForm, before using router, it can get state from Props of parent component( ActivityDashboard), now it can get a ID from the URL. once the component is triggered by Router, the component should use the ID in the URL to grab the content and display it.
 
+# 8-9 
+
+Scenario.   when we click the "view" button of certain Activity on the "ActivityList", a ActionForm will display, and display the value of the Activity.  At this moment, if we click the "createActivity" on the naveBar, we wish the Form will be reset, that is to say, we wish those old value can be cleared. 
+
+Why the URL changed, the Form View is not been re-rendered ?  the reason lies the useEffect relays on an dependency called "id", when click "createActivity", at this moment, the "id" is undefined.   
+
+Based on instructor, and React-router's documentation. to force the element to be re-rendered. we need give it an extra key.  because this key is always there in the Location Object, it will change with the URL. so that once the URL is change, the key will change and the componet will be re-rendered.  
+
 
 
 
