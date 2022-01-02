@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Image } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
+import { useParams } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
 const ActivityDetails = () => {
   const { activityStore } = useStore();
   const {
     selectedActivity: activity,
-    openForm,
-    cancelSelectedActivity,
+    loadActivity,
+    loadingInitial,
   } = activityStore;
+  
+   const { id } = useParams<{ id: string }>();
 
-  if (!activity) return <LoadingComponent />;
+   useEffect(() => {
+     if (id) loadActivity(id);
+   }, [id, loadActivity]);
+   
+   
+
+  if (loadingInitial || !activity) return <LoadingComponent />;
 
   return (
     // "fluid" is necessary to match the Grid's width
@@ -26,7 +36,6 @@ const ActivityDetails = () => {
       </Card.Content>
       <Button.Group widths={2}>
         <Button
-          onClick={() => openForm(activity.id)}
           basic
           color="blue"
           content="Edit"
@@ -35,11 +44,10 @@ const ActivityDetails = () => {
           basic
           color="grey"
           content="Cancel"
-          onClick={cancelSelectedActivity}
         />
       </Button.Group>
     </Card>
   );
 };
 
-export default ActivityDetails;
+export default observer(ActivityDetails);

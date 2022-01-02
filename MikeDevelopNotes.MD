@@ -161,5 +161,26 @@ Now, with the help of Router, we can call the componet individually. without mus
 
 "NavLink"s  format "as={NavLink} to='/activities' " 
 
+# 8-6 - Getting an individual activity
+
+Before ,the ActivityDetail view in Child of ActivityDashboard. we use State to decide if display it or hide it.  
+We pass parameter with "Props" or state such as "selectedID" from store.
+
+
+But now we are using Route with parameter.
+
+Now, we use Router to pick it out and display  
+
+How to specify a parameter.  
+Once we launch a Router with a parameter  
+1, Display the Component we specified.  
+2, In the Component, we can use useParams to get the ID or something passed in.  
+3. Need a brand-new logic to retrive the contant we need to display.   
+
+To load the specify Activity. we first check the Memory, if we cannot find it  we should fetch it from remote database.  
+
+
+
+
 
 
