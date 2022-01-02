@@ -150,3 +150,16 @@ what is the benefit of using Map?
 move useEffect to Dashboard.  
 At this point, the App component has only NavBar ui.
 
+# 8-4 - Activity Form
+
+Here must make clear.
+Before, Because ActivityForm is the Child of ActivityDashboard, it is triggered by a state called "editMode", so that if ActivityDashboard is not mounted, ActivityForm will not diplay.
+
+if in the URL, we input "localhost:3000/", at this moment, the ActivityDashboard is not mounted actually. so that even the buttenhandler change the "editMode" to "on", but ActivityDashboard is not mounted, so it is useless for triggering the ActivityForm...
+
+Now, with the help of Router, we can call the componet individually. without must call its Parent component.
+
+"NavLink"s  format "as={NavLink} to='/activities' " 
+
+
+
