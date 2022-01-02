@@ -13,8 +13,12 @@ const ActivityDetails = () => {
     loadingInitial,
   } = activityStore;
   
+  // get id from Router
    const { id } = useParams<{ id: string }>();
 
+   // Retrieve the Activity based on id
+   // Before, the Parent will pass in the Activity via the Props 
+   // Now we only have the id, the component need a new approach to grab the content
    useEffect(() => {
      if (id) loadActivity(id);
    }, [id, loadActivity]);

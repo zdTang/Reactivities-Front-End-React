@@ -1,26 +1,22 @@
 import React, { useEffect } from "react";
 import { Grid } from "semantic-ui-react";
-import ActivityDetails from "../details/ActivityDetails";
-import ActivityForm from "../form/ActivityForm";
 import ActivityList from "./ActivityList";
-import {useStore} from "../../../app/stores/store"
+import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 
-
 const ActivityDashboard = () => {
   const { activityStore } = useStore();
-  const { selectedActivity, editMode, loadingInitial } = activityStore;
-  
-  // study this useEffect
-  // any change in activityStore, will reload 
-  useEffect(() => {
-    activityStore.loadActivities();
-  }, [activityStore]);
+  const { loadingInitial, loadActivities } = activityStore;
 
+  // study this useEffect
+  // any change in activityStore, will reload
+  useEffect(() => {
+    loadActivities();
+  }, [activityStore, loadActivities]);
 
   if (loadingInitial) return <LoadingComponent content="Loading app" />;
-  // SelectedActivity is the Activity user chose from the ActivityList
+ 
   return (
     <div>
       <Grid>
@@ -28,12 +24,11 @@ const ActivityDashboard = () => {
           <ActivityList />
         </Grid.Column>
         <Grid.Column width={6}>
-          {selectedActivity && !editMode && <ActivityDetails />}
-          {editMode && <ActivityForm />}
+          <h2>Activity Filter</h2>
         </Grid.Column>
       </Grid>
     </div>
   );
-};;
+};
 
 export default observer(ActivityDashboard);

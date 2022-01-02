@@ -1,11 +1,9 @@
 import React from "react";
 import { Button, Container, Menu } from "semantic-ui-react";
-import { useStore } from "../stores/store";
 import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
-  const { activityStore } = useStore();
-  const { openForm } = activityStore;
+  
   return (
     <Menu fixed="top" inverted>
       <Container>

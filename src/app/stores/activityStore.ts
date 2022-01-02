@@ -52,30 +52,8 @@ export default class ActivityStore {
     this.loadingInitial = state;
   };
 
-  // the selected activity will trigger "ActivityDetail" view
-  // if "selectedActivity" is "undefined", then there is not Detail View display.
-  cancelSelectedActivity = () => {
-    this.selectedActivity = undefined;
-    console.log("CancelSelectActivity!");
-  };
+ 
 
-  selectActivity = (id: string) => {
-    this.selectedActivity = this.activityRegistry.get(id);
-    console.log("SelectActivity= ", id);
-  };
-
-  // Two locations will call this method.
-  // when use "Create Activity" on Navbar, no id passed here, will trigger "handleCancelActivity"
-  // when use "View"=>"Edit" to trigger this method, will have id , will execute "handleSelectActivity"
-  openForm = (id?: string) => {
-    console.log("handleFormOpen=", id);
-    id ? this.selectActivity(id) : this.cancelSelectedActivity();
-    this.editMode = true;
-  };
-
-  closeForm = () => {
-    this.editMode = false;
-  };
 
   // use async syntax now
   /*==========================================
@@ -157,7 +135,7 @@ export default class ActivityStore {
       // cancel "view" the Activity if it is deleted
       // there is a scenario: the activity is Viewed on the right side while we click "delete" on it in the ActivityList
       // In this scenario, we will not display it any more.
-      if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
+      // as we use Router, we will view it in an individual view. so the previous scenario will not happen.
       runInAction(() => {
         this.loading = false;
       });

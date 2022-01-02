@@ -1,14 +1,13 @@
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
-import {useStore} from "../../../app/stores/store"
+import { useStore } from "../../../app/stores/store";
 
 // use Alias here, as we want use the "activity" in useState
 // So that we can name the following "activity" as another name to avoid duplication
 // activity:selectedActivity, Here, it is not a type or option value, it is an Alias
 const ActivityForm = () => {
-  
-  const {activityStore}=useStore();
+  const { activityStore } = useStore();
   const { selectedActivity, createActivity, updateActivity, loading } =
     activityStore;
   const initialState = selectedActivity ?? {
@@ -24,7 +23,7 @@ const ActivityForm = () => {
   const [activity, setActivity] = useState(initialState);
 
   function handleSubmit() {
-   activity.id ? updateActivity(activity) : createActivity(activity);
+    activity.id ? updateActivity(activity) : createActivity(activity);
   }
 
   //this is a new approach to bind Form with an Object
@@ -83,12 +82,7 @@ const ActivityForm = () => {
           type="submit"
           content="Submit"
         />
-        <Button
-          onClick={activityStore.closeForm}
-          floated="right"
-          type="button"
-          content="Cancel"
-        />
+        <Button floated="right" type="button" content="Cancel" />
       </Form>
     </Segment>
   );
