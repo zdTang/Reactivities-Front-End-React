@@ -144,3 +144,9 @@ add TRY-CATCH for those async operations.
 use Map other than Array.  
 what is the benefit of using Map?
 
+
+# 8-3 - Adding routes
+
+move useEffect to Dashboard.  
+At this point, the App component has only NavBar ui.
+
