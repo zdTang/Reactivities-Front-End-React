@@ -13,19 +13,27 @@ function App() {
   const location = useLocation();
   return (
     <>
-      <NavBar />
-      <Container style={{ marginTop: "7em" }}>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/activities" component={ActivityDashboard} />
-        <Route path="/activities/:id" component={ActivityDetails} />
-        {/* these two URL points to the same component, it is not a good approach. */}
-        <Route
-          key={location.key}
-          exact
-          path={["/createActivity", "/manage/:id"]}
-          component={ActivityForm}
-        />
-      </Container>
+      <Route exact path="/" component={HomePage} />
+      <Route
+        path={"/(.+)"}
+        render={() => (
+          <>
+            <NavBar />
+            <Container style={{ marginTop: "7em" }}>
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/activities" component={ActivityDashboard} />
+              <Route path="/activities/:id" component={ActivityDetails} />
+              {/* these two URL points to the same component, it is not a good approach. */}
+              <Route
+                key={location.key}
+                exact
+                path={["/createActivity", "/manage/:id"]}
+                component={ActivityForm}
+              />
+            </Container>
+          </>
+        )}
+      />
     </>
   );
 }

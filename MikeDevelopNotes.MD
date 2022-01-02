@@ -203,5 +203,11 @@ Based on instructor, and React-router's documentation. to force the element to b
 2. Be very careful of if condition. falsy or truth. how to control data flow
 3. useHistory can let use to anywhere. once we finish an operation, we can use useHistory to redirect to the destination we wish.
 
+# 8-11 - Moving the home page outside of nav
+
+we don't want display NavBar at the begin.  
+But because there is no Route for Navbar, it will alway display.  
+so that we use create a Route and use "render" property to wrap all these route inside. by doing this, we can display Homepage at the begining without display NavBar.
+
 
 
