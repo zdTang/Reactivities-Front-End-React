@@ -32,16 +32,11 @@ export default function TestErrors() {
   }
 
   function handleBadGuid() {
-    axios
-      .get(baseUrl + "activities/notaguid")
-      .catch((err) => console.log(err.response));
+    axios.get(baseUrl + "activities/notaguid").catch((err) => console.log(err));
   }
 
   function handleValidationError() {
-    //the "err" we cough are thrown by the Axios.interceptors
-    //this data has been processed and taken out off the original response Object
     axios.post(baseUrl + "activities", {}).catch((err) => setErrors(err));
-    //.catch((err) => console.log(err));
   }
 
   return (

@@ -231,3 +231,7 @@ For 400-BadRequest, there are two scenarios. one is normal BadRequest, for this 
 
 
 Add ValidationError component and display it once Error happens.
+
+# 10-13 - Handling 500 errors on the client
+
+has error at first, always complain "ServerError is not a component", cannot fix it ,just copy code from "ServerError" of source code. 
