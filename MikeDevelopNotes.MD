@@ -220,3 +220,14 @@ Axios interceptor + toaster
 # 10 -11 - Adding a not found component
 
 use browserHistory object to redirect to where we want to go.
+
+several questions:
+1. how Axios know error happens from the Server? by Status code?
+2. When Axios re-throw the error, who will receive it, the Browser?  
+this chapter is very important. try to understand it. and watch it several times.
+
+
+For 400-BadRequest, there are two scenarios. one is normal BadRequest, for this use case, we can just display the Error message. but for ValidationError, it also has an Array for those validation information. so that we need to parse it.
+
+
+Add ValidationError component and display it once Error happens.

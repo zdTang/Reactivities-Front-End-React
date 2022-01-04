@@ -19,8 +19,20 @@ axios.interceptors.response.use(
   (error: AxiosError) => {
     const { data, status } = error.response!;
     switch (status) {
-      case 400:
-        toast.error("Bad request");
+      case 400: // At least includes 2 use cases.
+        if (data.errors) {
+          // 1. for Validation BadRequest, the response have an Array of errors
+          const modalStateErrors = [];
+          for (const key in data.errors) {
+            if (data.errors[key]) {
+              modalStateErrors.push(data.errors[key]);
+            }
+          }
+          throw modalStateErrors.flat(); // throw processed data, the new data will replace original response information
+        } else {
+          //  2. for normal BadRequest, only have a "data"
+          toast.error(data);
+        }
         break;
       case 401:
         toast.error("Unauthorized");
