@@ -214,4 +214,5 @@ so that we use create a Route and use "render"
 
 # 10-10 - Using an interceptor to handle API error responses
 
-add logic to interceptor
+add logic to interceptor  
+Axios interceptor + toaster
