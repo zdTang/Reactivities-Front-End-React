@@ -216,3 +216,7 @@ so that we use create a Route and use "render"
 
 add logic to interceptor  
 Axios interceptor + toaster
+
+# 10 -11 - Adding a not found component
+
+use browserHistory object to redirect to where we want to go.
